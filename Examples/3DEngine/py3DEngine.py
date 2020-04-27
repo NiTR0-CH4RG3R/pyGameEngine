@@ -1,6 +1,6 @@
 #Created by Buddhima Zoysa (27/04/2020)
 #This is just a experimental 3D engine that uses pyGameEngine.py
-
+#This is still working progress (Not working)
 from pyGameEngine import pyGameEngine
 import math
 
@@ -119,11 +119,7 @@ class py3DEngine(pyGameEngine):
                 line2[2] = camRelV3[2] - camRelV1[2]
 
                 normal = self.VectorCrossProduct(line1, line2)
-                #normal = [None] * 3
-                #normal[0] = line1[1] * line2[2] - line1[2] * line2[1]
-                #normal[1] = line1[2] * line2[0] - line1[0] * line2[2]
-                #normal[2] = line1[0] * line2[1] - line1[1] * line2[0]
-
+                
                 normalLength = math.sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2])
                 normal[0] /= normalLength
                 normal[1] /= normalLength
@@ -133,16 +129,17 @@ class py3DEngine(pyGameEngine):
                 #b = normal[1] * camRelV3[1]
                 #c = normal[2] * camRelV3[2]
                 #d = a + b + c
-                #if d < 0.0:
-                if camRelV1[2] > 0.5 and camRelV2[2] > 0.5 and camRelV3[2] > 0.5:
-                    v1 = self.WorldToScreenCord(camRelV1[0], camRelV1[1], camRelV1[2])
-                    v2 = self.WorldToScreenCord(camRelV2[0], camRelV2[1], camRelV2[2])
-                    v3 = self.WorldToScreenCord(camRelV3[0], camRelV3[1], camRelV3[2])
+                d = self.VectorDotProduct(normal,camRelV3)
+                if d < 0.0:
+                    if camRelV1[2] > 0.5 and camRelV2[2] > 0.5 and camRelV3[2] > 0.5:
+                        v1 = self.WorldToScreenCord(camRelV1[0], camRelV1[1], camRelV1[2])
+                        v2 = self.WorldToScreenCord(camRelV2[0], camRelV2[1], camRelV2[2])
+                        v3 = self.WorldToScreenCord(camRelV3[0], camRelV3[1], camRelV3[2])
 
-                    #lightAndNormalDot = self.VectorDotProduct(normal, directionalLight[1])
-                    #lightAndNormalDot = 1 - (lightAndNormalDot * 0.5 + 0.5)
-                    #lightAndNormalDot *= 255
+                        #lightAndNormalDot = self.VectorDotProduct(normal, directionalLight[1])
+                        #lightAndNormalDot = 1 - (lightAndNormalDot * 0.5 + 0.5)
+                        #lightAndNormalDot *= 255
 
-                    self.DrawTriangle(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1])
+                        self.DrawTriangle(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1])
 
         return True
